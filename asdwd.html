@@ -1,0 +1,468 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+    
+    /* === ANIMACIONES === */
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-100%) !important;
+            opacity: 0 !important;
+        }
+        100% {
+            transform: translateX(0) !important;
+            opacity: 1 !important;
+        }
+    }
+    
+    @keyframes fadeInScale {
+        0% {
+            opacity: 0 !important;
+            transform: scale(0.95) translateY(-10px) !important;
+        }
+        100% {
+            opacity: 1 !important;
+            transform: scale(1) translateY(0) !important;
+        }
+    }
+    
+    .elementor-element-38cb5fd * {
+        font-family: 'Open Sans', sans-serif !important;
+    }
+    
+    /* === RESET === */
+    .elementor-nav-menu li {
+        list-style: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* === MENÚ DESKTOP === */
+    .elementor-nav-menu--main .elementor-nav-menu {
+        display: flex !important;
+        list-style: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .elementor-nav-menu--main .elementor-item {
+        color: #ffffff !important;
+        background-color: #dc2626 !important;
+        padding: 14px 24px !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        display: inline-block !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .elementor-nav-menu--main .elementor-item::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 100% !important;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+        transition: left 0.5s ease !important;
+    }
+    
+    .elementor-nav-menu--main .elementor-item:hover::before {
+        left: 100% !important;
+    }
+    
+    .elementor-nav-menu--main .elementor-item:hover {
+        background-color: #000000 !important;
+    }
+    
+    .elementor-nav-menu--main .elementor-item-active {
+        background-color: #000000 !important;
+    }
+    
+    .elementor-nav-menu--main .sub-arrow,
+    .elementor-nav-menu--main .sub-arrow svg,
+    .elementor-nav-menu--main .e-font-icon-svg {
+        fill: #ffffff !important;
+        width: 12px !important;
+        height: 12px !important;
+        margin-left: 6px !important;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        display: inline-block !important;
+        vertical-align: middle !important;
+    }
+    
+    .elementor-nav-menu--main .has-submenu {
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    
+    .elementor-nav-menu--main .has-submenu:hover .sub-arrow svg {
+        transform: rotate(180deg) !important;
+    }
+    
+    .elementor-nav-menu--main .menu-item-has-children {
+        position: relative !important;
+    }
+    
+    .elementor-nav-menu--main .sub-menu {
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        z-index: 1000 !important;
+        background-color: #000000 !important;
+        padding: 8px 0 !important;
+        min-width: 240px !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-20px) scale(0.95) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+        border-top: 1px solid #dc2626 !important;
+        display: block !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+    }
+    
+    /* Submenús de segundo nivel (sub-submenús) aparecen a la derecha */
+    .elementor-nav-menu--main .sub-menu .sub-menu {
+        top: 0 !important;
+        left: 100% !important;
+        margin-left: 0 !important;
+        border-top: 1px solid #dc2626 !important;
+        transform: translateX(-20px) scale(0.95) !important;
+    }
+    
+    .elementor-nav-menu--main .sub-menu .menu-item-has-children {
+        position: relative !important;
+    }
+    
+    .elementor-nav-menu--main .sub-menu .menu-item-has-children:hover > .sub-menu {
+        transform: translateX(0) scale(1) !important;
+    }
+    
+    .elementor-nav-menu--main .menu-item-has-children:hover > .sub-menu,
+    .elementor-nav-menu--main li:hover > .sub-menu,
+    .elementor-nav-menu--main .sub-menu:hover {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) scale(1) !important;
+        display: block !important;
+        animation: fadeInScale 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    /* Submenús anidados en desktop */
+    .elementor-nav-menu--main .sub-menu .menu-item-has-children:hover > .sub-menu {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) scale(1) !important;
+        display: block !important;
+    }
+    
+    .elementor-nav-menu--main .sub-menu .elementor-sub-item {
+        color: #ffffff !important;
+        background-color: transparent !important;
+        padding: 12px 24px !important;
+        text-decoration: none !important;
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        display: block !important;
+        position: relative !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        border-left: 3px solid transparent !important;
+    }
+    
+    .elementor-nav-menu--main .sub-menu .elementor-sub-item:hover {
+        background-color: #dc2626 !important;
+        border-left-color: #dc2626 !important;
+        padding-left: 28px !important;
+        transform: translateX(5px) !important;
+    }
+    
+    /* Sobrescribir display inline de WordPress */
+    .elementor-nav-menu--main .sub-menu[style*="display: none"],
+    .elementor-nav-menu--main .sub-menu[style*="display:none"] {
+        display: block !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    .elementor-nav-menu--main .menu-item-has-children:hover > .sub-menu[style*="display"],
+    .elementor-nav-menu--main li:hover > .sub-menu[style*="display"] {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) scale(1) !important;
+    }
+    
+    /* === BOTÓN TOGGLE MOBILE === */
+    .elementor-menu-toggle {
+        background-color: #000000 !important;
+        border: 2px solid #dc2626 !important;
+        padding: 12px 16px !important;
+        cursor: pointer !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .elementor-menu-toggle::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        width: 0 !important;
+        height: 0 !important;
+        border-radius: 50% !important;
+        background-color: #dc2626 !important;
+        transform: translate(-50%, -50%) !important;
+        transition: width 0.4s ease, height 0.4s ease !important;
+    }
+    
+    .elementor-menu-toggle:hover::before {
+        width: 300px !important;
+        height: 300px !important;
+    }
+    
+    .elementor-menu-toggle:hover {
+        border-color: #ffffff !important;
+    }
+    
+    .elementor-menu-toggle svg {
+        fill: #dc2626 !important;
+        width: 24px !important;
+        height: 24px !important;
+        transition: fill 0.3s ease, transform 0.3s ease !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    .elementor-menu-toggle:hover svg {
+        fill: #ffffff !important;
+        transform: rotate(90deg) !important;
+    }
+    
+    /* === DESKTOP: Ocultar menú mobile === */
+    @media (min-width: 769px) {
+        .elementor-menu-toggle {
+            display: none !important;
+        }
+        
+        nav.elementor-nav-menu--dropdown {
+            display: none !important;
+        }
+        
+        .elementor-nav-menu--main {
+            display: flex !important;
+        }
+    }
+    
+    /* === MOBILE: Solo estilos visuales, NO bloquear funcionalidad === */
+    @media (max-width: 768px) {
+        .elementor-nav-menu--main {
+            display: none !important;
+        }
+        
+        /* Contenedor principal del menú mobile */
+        nav.elementor-nav-menu--dropdown {
+            background-color: #000000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 70% !important;
+            max-width: 70% !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: -100% !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            overflow-y: auto !important;
+            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.8) !important;
+        }
+        
+        nav.elementor-nav-menu--dropdown[aria-hidden="false"],
+        nav.elementor-nav-menu--dropdown:not([aria-hidden="true"]),
+        .elementor-menu-toggle[aria-expanded="true"] ~ nav.elementor-nav-menu--dropdown {
+            left: 0 !important;
+            animation: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        
+        .elementor-nav-menu--dropdown[aria-hidden="true"] {
+            left: -100% !important;
+        }
+        
+        /* Items del menú mobile - SOLO estilos visuales */
+        .elementor-nav-menu--dropdown .elementor-item {
+            color: #ffffff !important;
+            background-color: #dc2626 !important;
+            padding: 12px 20px !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+            line-height: 1.4 !important;
+        }
+        
+        .elementor-nav-menu--dropdown .elementor-item:hover {
+            background-color: #000000 !important;
+        }
+        
+        .elementor-nav-menu--dropdown .elementor-item-active {
+            background-color: #000000 !important;
+            border-left: 4px solid #dc2626 !important;
+        }
+        
+        /* Submenús en mobile - SOLO estilos visuales */
+        nav.elementor-nav-menu--dropdown ul.sub-menu {
+            background-color: #000000 !important;
+            border-left: 3px solid #dc2626 !important;
+        }
+        
+        /* Sub-items en mobile - SOLO estilos visuales */
+        .elementor-nav-menu--dropdown .elementor-sub-item {
+            color: #ffffff !important;
+            background-color: transparent !important;
+            padding: 10px 20px 10px 32px !important;
+            text-decoration: none !important;
+            font-weight: 400 !important;
+            font-size: 14px !important;
+            border-bottom: 1px solid rgba(220, 38, 38, 0.2) !important;
+            line-height: 1.4 !important;
+        }
+        
+        .elementor-nav-menu--dropdown .elementor-sub-item:hover {
+            background-color: #dc2626 !important;
+        }
+        
+        /* Submenús anidados - SOLO estilos visuales */
+        nav.elementor-nav-menu--dropdown ul.sub-menu ul.sub-menu .elementor-sub-item {
+            padding: 8px 20px 8px 48px !important;
+            font-size: 13px !important;
+        }
+        
+        /* Flechas en mobile - SOLO estilos visuales */
+        .elementor-nav-menu--dropdown .sub-arrow svg,
+        .elementor-nav-menu--dropdown .e-font-icon-svg {
+            fill: #ffffff !important;
+            width: 14px !important;
+            height: 14px !important;
+            transition: transform 0.3s ease !important;
+        }
+        
+        .elementor-nav-menu--dropdown [aria-expanded="true"] > .sub-arrow svg {
+            transform: rotate(180deg) !important;
+        }
+        
+        /* Forzar texto blanco en todo el menú mobile */
+        nav.elementor-nav-menu--dropdown,
+        nav.elementor-nav-menu--dropdown *,
+        nav.elementor-nav-menu--dropdown a,
+        nav.elementor-nav-menu--dropdown a:hover,
+        nav.elementor-nav-menu--dropdown ul.sub-menu,
+        nav.elementor-nav-menu--dropdown ul.sub-menu *,
+        nav.elementor-nav-menu--dropdown ul.sub-menu li,
+        nav.elementor-nav-menu--dropdown ul.sub-menu li a {
+            color: #ffffff !important;
+        }
+    }
+</style>
+    
+<script>
+(function() {
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', function(e) {
+        const dropdown = document.querySelector('nav.elementor-nav-menu--dropdown');
+        const toggle = document.querySelector('.elementor-menu-toggle');
+        
+        if (dropdown && toggle && 
+            dropdown.getAttribute('aria-hidden') === 'false' &&
+            !dropdown.contains(e.target) && 
+            !toggle.contains(e.target)) {
+            dropdown.setAttribute('aria-hidden', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+
+<div class="elementor-element elementor-element-ca38bda elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="ca38bda" data-element_type="widget" data-settings="{&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;svg aria-hidden=\&quot;true\&quot; class=\&quot;e-font-icon-svg e-fas-caret-down\&quot; viewBox=\&quot;0 0 320 512\&quot; xmlns=\&quot;http:\/\/www.w3.org\/2000\/svg\&quot;&gt;&lt;path d=\&quot;M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z\&quot;&gt;&lt;\/path&gt;&lt;\/svg&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default">
+    <nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-underline e--animation-fade">
+<ul id="menu-1-ca38bda" class="elementor-nav-menu" data-smartmenus-id="17643716984396252"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-7 current_page_item menu-item-3137"><a href="https://keynova.cl/starfit/" aria-current="page" class="elementor-item elementor-item-active">Inicio</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3138"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/" class="elementor-item has-submenu" id="sm-17643716984396252-1" aria-haspopup="true" aria-controls="sm-17643716984396252-2" aria-expanded="false">Equipamiento<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984396252-2" role="group" aria-hidden="true" aria-labelledby="sm-17643716984396252-1" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3139"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/" class="elementor-sub-item has-submenu" id="sm-17643716984396252-3" aria-haspopup="true" aria-controls="sm-17643716984396252-4" aria-expanded="false">Cardiovascular<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984396252-4" role="group" aria-hidden="true" aria-labelledby="sm-17643716984396252-3" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3140"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/bicicletas/" class="elementor-sub-item">Bicicletas</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3141"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/elipticas/" class="elementor-sub-item">Elípticas</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3142"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/escaladores/" class="elementor-sub-item">Escaladores</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3143"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/remador/" class="elementor-sub-item">Remador</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3144"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/trotadoras/" class="elementor-sub-item">Trotadoras</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3145"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/" class="elementor-sub-item has-submenu" id="sm-17643716984396252-5" aria-haspopup="true" aria-controls="sm-17643716984396252-6" aria-expanded="false">Entrenamiento<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984396252-6" role="group" aria-hidden="true" aria-labelledby="sm-17643716984396252-5" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3146"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/accesorios/" class="elementor-sub-item">Accesorios</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3147"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/crossfit/" class="elementor-sub-item">Crossfit</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3148"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/funcional/" class="elementor-sub-item">Funcional</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3149"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/pesas-y-barras/" class="elementor-sub-item">Pesas y Barras</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3150"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/" class="elementor-sub-item has-submenu" id="sm-17643716984396252-7" aria-haspopup="true" aria-controls="sm-17643716984396252-8" aria-expanded="false">Fuerza<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984396252-8" role="group" aria-hidden="true" aria-labelledby="sm-17643716984396252-7" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3151"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/jaulas-funcionales/" class="elementor-sub-item">Jaulas Funcionales</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3152"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/platinum-fitness/" class="elementor-sub-item">Platinum Fitness</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3153"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/rack-y-bancos/" class="elementor-sub-item">Rack y Bancos</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3154"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/starfit-free-weight/" class="elementor-sub-item">Starfit Free Weight</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3155"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/starfit-pro/" class="elementor-sub-item">Starfit Pro</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3156"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/titan-fitness/" class="elementor-sub-item">TITAN Fitness</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3157"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/titan-free-weight/" class="elementor-sub-item">Titan Free Weight</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3158"><a href="https://keynova.cl/starfit/categoria-producto/ofertas/" class="elementor-item">Ofertas</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3159"><a href="https://keynova.cl/starfit/categoria-producto/preventa/" class="elementor-item">Preventa</a></li>
+</ul>			</nav>
+<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+<svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open e-font-icon-svg e-eicon-menu-bar" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M104 333H896C929 333 958 304 958 271S929 208 896 208H104C71 208 42 237 42 271S71 333 104 333ZM104 583H896C929 583 958 554 958 521S929 458 896 458H104C71 458 42 487 42 521S71 583 104 583ZM104 833H896C929 833 958 804 958 771S929 708 896 708H104C71 708 42 737 42 771S71 833 104 833Z"></path></svg><svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close e-font-icon-svg e-eicon-close" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path></svg>		</div>
+<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true" style="--menu-height: 0;">
+<ul id="menu-2-ca38bda" class="elementor-nav-menu" data-smartmenus-id="17643716984421128"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-7 current_page_item menu-item-3137"><a href="https://keynova.cl/starfit/" aria-current="page" class="elementor-item elementor-item-active" tabindex="-1">Inicio</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3138"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/" class="elementor-item has-submenu" tabindex="-1" id="sm-17643716984421128-1" aria-haspopup="true" aria-controls="sm-17643716984421128-2" aria-expanded="false">Equipamiento<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984421128-2" role="group" aria-hidden="true" aria-labelledby="sm-17643716984421128-1" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3139"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/" class="elementor-sub-item has-submenu" tabindex="-1" id="sm-17643716984421128-3" aria-haspopup="true" aria-controls="sm-17643716984421128-4" aria-expanded="false">Cardiovascular<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984421128-4" role="group" aria-hidden="true" aria-labelledby="sm-17643716984421128-3" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3140"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/bicicletas/" class="elementor-sub-item" tabindex="-1">Bicicletas</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3141"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/elipticas/" class="elementor-sub-item" tabindex="-1">Elípticas</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3142"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/escaladores/" class="elementor-sub-item" tabindex="-1">Escaladores</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3143"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/remador/" class="elementor-sub-item" tabindex="-1">Remador</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3144"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/cardiovascular/trotadoras/" class="elementor-sub-item" tabindex="-1">Trotadoras</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3145"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/" class="elementor-sub-item has-submenu" tabindex="-1" id="sm-17643716984421128-5" aria-haspopup="true" aria-controls="sm-17643716984421128-6" aria-expanded="false">Entrenamiento<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984421128-6" role="group" aria-hidden="true" aria-labelledby="sm-17643716984421128-5" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3146"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/accesorios/" class="elementor-sub-item" tabindex="-1">Accesorios</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3147"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/crossfit/" class="elementor-sub-item" tabindex="-1">Crossfit</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3148"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/funcional/" class="elementor-sub-item" tabindex="-1">Funcional</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3149"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/entrenamiento/pesas-y-barras/" class="elementor-sub-item" tabindex="-1">Pesas y Barras</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-has-children menu-item-3150"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/" class="elementor-sub-item has-submenu" tabindex="-1" id="sm-17643716984421128-7" aria-haspopup="true" aria-controls="sm-17643716984421128-8" aria-expanded="false">Fuerza<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span></a>
+<ul class="sub-menu elementor-nav-menu--dropdown" id="sm-17643716984421128-8" role="group" aria-hidden="true" aria-labelledby="sm-17643716984421128-7" aria-expanded="false">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3151"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/jaulas-funcionales/" class="elementor-sub-item" tabindex="-1">Jaulas Funcionales</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3152"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/platinum-fitness/" class="elementor-sub-item" tabindex="-1">Platinum Fitness</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3153"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/rack-y-bancos/" class="elementor-sub-item" tabindex="-1">Rack y Bancos</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3154"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/starfit-free-weight/" class="elementor-sub-item" tabindex="-1">Starfit Free Weight</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3155"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/starfit-pro/" class="elementor-sub-item" tabindex="-1">Starfit Pro</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3156"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/titan-fitness/" class="elementor-sub-item" tabindex="-1">TITAN Fitness</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3157"><a href="https://keynova.cl/starfit/categoria-producto/equipamiento/fuerza/titan-free-weight/" class="elementor-sub-item" tabindex="-1">Titan Free Weight</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3158"><a href="https://keynova.cl/starfit/categoria-producto/ofertas/" class="elementor-item" tabindex="-1">Ofertas</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-3159"><a href="https://keynova.cl/starfit/categoria-producto/preventa/" class="elementor-item" tabindex="-1">Preventa</a></li>
+</ul>			</nav>
+</div>

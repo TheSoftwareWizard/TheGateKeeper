@@ -1,0 +1,26 @@
+[Unit]
+Description=Discord Bot - First Message Role Assigner
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/acceptbotdiscordcbot
+Environment="NODE_ENV=production"
+EnvironmentFile=/home/ubuntu/acceptbotdiscordcbot/.env
+ExecStart=/usr/bin/node /home/ubuntu/acceptbotdiscordcbot/bot.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=acceptbot
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
+
+
