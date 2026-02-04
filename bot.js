@@ -179,7 +179,10 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 client.on("error", (err) => {
-  console.error("Discord client error:", err.message);
+  console.error("Discord client error:", err.message, err.code || "");
+});
+client.on("warn", (msg) => {
+  console.warn("Discord client warn:", msg);
 });
 client.once(Events.ClientReady, (c) => {
   console.info(`Using state file at ${STATE_FILE}`);
@@ -306,9 +309,15 @@ async function main() {
 
   try {
     console.log("Attempting Discord login...");
-    await client.login(TOKEN);
+    const loginPromise = client.login(TOKEN);
+    const timeoutMs = 20000;
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error(`Login timeout after ${timeoutMs / 1000}s - check token and Discord Developer Portal intents`)), timeoutMs);
+    });
+    await Promise.race([loginPromise, timeoutPromise]);
   } catch (error) {
-    console.error(`Failed to login: ${error.message}`);
+    console.error("Login failed:", error.message);
+    if (error.code) console.error("Error code:", error.code);
     process.exitCode = 1;
   }
 }
