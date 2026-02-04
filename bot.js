@@ -1,4 +1,5 @@
 import { config as loadEnv } from "dotenv";
+import express from "express";
 import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -264,6 +265,13 @@ client.on(Events.MessageCreate, async (message) => {
 });
 
 async function main() {
+  const port = Number(process.env.PORT) || 3000;
+  const app = express();
+  app.get("/", (req, res) => res.status(200).send("OK"));
+  app.listen(port, () => {
+    console.info(`Health server listening on port ${port}`);
+  });
+
   await ensureStatePath(STATE_FILE);
   await loadState(STATE_FILE);
 
