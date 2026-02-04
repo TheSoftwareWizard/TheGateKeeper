@@ -1,3 +1,5 @@
+console.log("BOOTING BOT - starting bot.js");
+
 import { config as loadEnv } from "dotenv";
 import express from "express";
 import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
@@ -172,8 +174,10 @@ const client = new Client({
   partials: [Partials.Channel, Partials.Message, Partials.Reaction],
 });
 
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}`);
+});
 client.once(Events.ClientReady, (c) => {
-  console.info(`Logged in as ${c.user.tag} (ID: ${c.user.id})`);
   console.info(`Using state file at ${STATE_FILE}`);
   console.info(`Watching for messages in channel ID: ${INTRO_CHANNEL_ID}`);
   console.info(`Will send welcome messages to channel ID: ${WELCOME_CHANNEL_ID}`);
@@ -304,6 +308,7 @@ async function main() {
   });
 
   try {
+    console.log("Attempting Discord login...");
     await client.login(TOKEN);
   } catch (error) {
     console.error(`Failed to login: ${error.message}`);
