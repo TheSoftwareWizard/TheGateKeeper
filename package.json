@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Discord bot that assigns a role when members introduce themselves and sends a welcome message.",
   "type": "module",
-  "main": "bot.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node index.js"
   },
   "engines": {
-    "node": ">=18.17"
+    "node": "20.x"
   },
   "dependencies": {
     "discord.js": "^14.16.3",

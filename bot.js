@@ -1,12 +1,13 @@
-console.log("BOOTING BOT - starting bot.js");
-
 import { config as loadEnv } from "dotenv";
-import express from "express";
 import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 
 loadEnv();
+
+console.log("BOOTING BOT");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("Token exists?", !!process.env.DISCORD_TOKEN);
 
 const TOKEN = process.env.DISCORD_TOKEN?.trim();
 const ROLE_ID_RAW = process.env.TARGET_ROLE_ID?.trim();
@@ -177,6 +178,9 @@ const client = new Client({
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
+client.on("error", (err) => {
+  console.error("Discord client error:", err.message);
+});
 client.once(Events.ClientReady, (c) => {
   console.info(`Using state file at ${STATE_FILE}`);
   console.info(`Watching for messages in channel ID: ${INTRO_CHANNEL_ID}`);
@@ -269,13 +273,6 @@ client.on(Events.MessageCreate, async (message) => {
 });
 
 async function main() {
-  const port = Number(process.env.PORT) || 3000;
-  const app = express();
-  app.get("/", (req, res) => res.status(200).send("OK"));
-  app.listen(port, () => {
-    console.info(`Health server listening on port ${port}`);
-  });
-
   await ensureStatePath(STATE_FILE);
   await loadState(STATE_FILE);
 
