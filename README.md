@@ -1,6 +1,6 @@
-# Discord Bot: First Message Role
+# Discord Bot: Introduction Role
 
-This project implements a Discord bot written in Node.js. It grants a role to a member when they send their first message in any channel on the server.
+This Discord bot assigns a role to members when they send their first message in the introduction channel and sends a welcome message.
 
 ## Requirements
 
@@ -14,20 +14,28 @@ This project implements a Discord bot written in Node.js. It grants a role to a 
 1. Clone this repository and enter the project folder.
 
        git clone <url>
-       cd acceptbotdiscordcbot
+       cd TheGateKeeper
 
 2. Install dependencies:
 
        npm install
 
-3. Create a role in your server that you want to assign to first-time senders.
-4. Copy the **role ID** (enable developer mode in Discord and right-click the role).
-5. Create a `.env` file in the project root with the following values:
+3. Create the required channels and role in your Discord server:
+   - Introduction channel (e.g., introductions)
+   - Welcome channel (e.g., welcome)
+   - Role to assign (e.g., ShareIT)
+
+4. Enable Developer Mode in Discord and copy the IDs:
+   - Right-click the introduction channel and select "Copy ID"
+   - Right-click the welcome channel and select "Copy ID"
+   - Right-click the role and select "Copy ID"
+
+5. Create a `.env` file in the project root:
 
        DISCORD_TOKEN=your_bot_token
        TARGET_ROLE_ID=123456789012345678
-       # STATE_FILE is optional; defaults to <project_dir>/data/state.json
-       # STATE_FILE=/absolute/path/to/state.json
+       INTRO_CHANNEL_ID=123456789012345678
+       WELCOME_CHANNEL_ID=123456789012345678
 
 6. Run the bot:
 
@@ -35,169 +43,116 @@ This project implements a Discord bot written in Node.js. It grants a role to a 
 
 ## How It Works
 
-- The bot listens for each new message.
-- If the author is not a bot and it is their first message in the guild, the user ID is stored in `data/state.json` (configurable path).
-- The bot assigns the configured role to the member.
-- The processed user list is persisted so that the bot remembers who already received the role even after restarts.
+- The bot listens for messages in the introduction channel only.
+- When a user sends their first message in the introduction channel:
+  - The bot assigns the configured role to them
+  - A welcome message is sent to the welcome channel
+  - The user is marked as processed and persisted in `data/state.json`
+- Users who have already been processed will not trigger the bot again.
 
-> Note: The bot will not respond to private messages (DMs) and only acts in guilds where the role has been configured.
+## Deployment to Oracle Cloud Free Tier
 
-## Deployment to Oracle Cloud Free Tier (24/7)
+This bot can be deployed to Oracle Cloud Free Tier to run continuously.
 
-This bot can be deployed to Oracle Cloud Free Tier to run continuously. The free tier includes:
-- **Always Free Compute**: 2 AMD-based VMs or 4 Arm-based Ampere A1 VMs
-- **10 TB of outbound data transfer per month** (more than enough for a Discord bot)
-- **24/7 uptime** (as long as your instance is running)
-
-> 📖 **For a detailed step-by-step guide**, see [ORACLE_CLOUD_SETUP.md](ORACLE_CLOUD_SETUP.md)
-
-### Quick Deployment Steps:
+> For a detailed guide, see [ORACLE_CLOUD_SETUP.md](ORACLE_CLOUD_SETUP.md)
 
 ### Prerequisites
 
-1. **Oracle Cloud Account**: Sign up for [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
-2. **Create an Ubuntu Instance**:
-   - Go to Compute → Instances
-   - Create a new instance with Ubuntu 22.04 or later
-   - Use the default shape (Ampere A1 or VM.Standard.E2.1.Micro)
-   - Configure security rules to allow SSH (port 22)
-   - **Important**: No additional firewall rules needed for Discord bots (they use outbound connections only)
+1. Oracle Cloud Account: [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
+2. Ubuntu Instance (22.04 or later)
+3. SSH access configured
 
 ### Deployment Steps
 
-1. **Connect to your Oracle Cloud instance**:
-   ```bash
-   ssh ubuntu@<your-instance-ip>
-   ```
+1. Connect to your instance:
 
-2. **Install Git** (if not already installed):
-   ```bash
-   sudo apt update
-   sudo apt install -y git
-   ```
+       ssh ubuntu@<your-instance-ip>
 
-3. **Clone the repository**:
-   ```bash
-   cd ~
-   git clone <your-repo-url> acceptbotdiscordcbot
-   cd acceptbotdiscordcbot
-   ```
+2. Install Git:
 
-4. **Create the `.env` file**:
-   ```bash
-   # Option 1: Copy from example and edit
-   cp .env.example .env
-   nano .env
-   
-   # Option 2: Create manually
-   nano .env
-   ```
+       sudo apt update
+       sudo apt install -y git
+
+3. Clone the repository:
+
+       cd ~
+       git clone <your-repo-url> TheGateKeeper
+       cd TheGateKeeper
+
+4. Create the `.env` file:
+
+       cp .env.example .env
+       nano .env
+
    Add your configuration:
-   ```
-   DISCORD_TOKEN=your_bot_token_here
-   TARGET_ROLE_ID=123456789012345678
-   ```
-   
-   **Security Note**: The `.env` file will be automatically secured with `chmod 600` during deployment.
 
-5. **Make the deployment script executable and run it**:
-   ```bash
-   chmod +x deploy.sh
-   ./deploy.sh
-   ```
+       DISCORD_TOKEN=your_bot_token_here
+       TARGET_ROLE_ID=123456789012345678
+       INTRO_CHANNEL_ID=123456789012345678
+       WELCOME_CHANNEL_ID=123456789012345678
 
-The script will:
-- Install Node.js 18.x if needed
-- Install npm dependencies
-- Create the `data/` directory for state persistence
-- Configure and install the systemd service
-- Secure the `.env` file with proper permissions
-- Start the bot automatically
-- Enable the service to start on boot
+5. Run the deployment script:
 
-**Note**: The script automatically detects your project directory and user, so it works regardless of where you clone the repository or which user you're logged in as.
+       chmod +x deploy.sh
+       ./deploy.sh
+
+The script will install Node.js, dependencies, configure the systemd service, and start the bot.
 
 ### Managing the Service
 
-Once deployed, you can manage the bot using systemd:
+Once deployed, manage the bot using systemd:
 
-```bash
-# Check status
-sudo systemctl status acceptbot
-
-# View live logs
-sudo journalctl -u acceptbot -f
-
-# Stop the bot
-sudo systemctl stop acceptbot
-
-# Start the bot
-sudo systemctl start acceptbot
-
-# Restart the bot
-sudo systemctl restart acceptbot
-
-# Disable auto-start on boot
-sudo systemctl disable acceptbot
-```
+    sudo systemctl status acceptbot
+    sudo journalctl -u acceptbot -f
+    sudo systemctl stop acceptbot
+    sudo systemctl start acceptbot
+    sudo systemctl restart acceptbot
 
 ### Updating the Bot
 
-To update the bot after making changes, you can use the included update script:
+Use the included update script:
 
-```bash
-cd ~/acceptbotdiscordcbot
-chmod +x update.sh
-./update.sh
-```
+    cd ~/TheGateKeeper
+    chmod +x update.sh
+    ./update.sh
 
 Or manually:
-```bash
-cd ~/acceptbotdiscordcbot
-git pull
-npm install
-sudo systemctl restart acceptbot
-```
+
+    cd ~/TheGateKeeper
+    git pull
+    npm install
+    sudo systemctl restart acceptbot
 
 ### Utility Scripts
 
-The project includes several utility scripts to help manage the bot:
+- `health-check.sh`: Verifies service status
+- `backup.sh`: Creates backups of state and config
+- `update.sh`: Updates and restarts the bot
 
-- **`health-check.sh`**: Verifies that the service is running correctly and checks for errors
-- **`backup.sh`**: Creates a timestamped backup of the state file and configuration
-- **`update.sh`**: Automatically pulls updates, installs dependencies, and restarts the service
+Usage:
 
-To use these scripts:
-```bash
-chmod +x health-check.sh backup.sh update.sh
-./health-check.sh  # Check bot health
-./backup.sh        # Create backup before updates
-./update.sh        # Update the bot
-```
+    chmod +x health-check.sh backup.sh update.sh
+    ./health-check.sh
+    ./backup.sh
+    ./update.sh
 
 ### Troubleshooting
 
 - **Service won't start**: Check logs with `sudo journalctl -u acceptbot -n 50`
-- **Permission errors**: Ensure the `.env` file has correct permissions: `chmod 600 .env`
-- **Node.js version issues**: The script will install Node.js 18.x automatically
+- **Permission errors**: Ensure `.env` has correct permissions: `chmod 600 .env`
 - **Bot not responding**: 
-  - Verify bot token is correct in `.env`
-  - Check that bot has required permissions in Discord server
+  - Verify credentials in `.env`
+  - Check bot permissions in Discord server
   - Ensure intents are enabled in Discord Developer Portal
-  - Check logs: `sudo journalctl -u acceptbot -f`
-- **Role not found errors**: 
-  - Verify `TARGET_ROLE_ID` matches the role ID in your Discord server
-  - Ensure the bot's role is positioned above the target role in Discord's role hierarchy
-  - Check that the bot has "Manage Roles" permission
-- **Oracle Cloud specific**:
-  - If instance stops unexpectedly, check Oracle Cloud console for resource limits
-  - Free tier instances may have CPU throttling; this shouldn't affect a Discord bot
-  - Ensure you're using Ubuntu 22.04 or later for best compatibility
+  - Verify channel IDs are correct
+- **Role not found**: 
+  - Verify role ID matches Discord server
+  - Ensure bot role is above target role in hierarchy
+  - Check bot has "Manage Roles" permission
 
 ## Development
 
-- State is stored as JSON in `STATE_FILE`. Defaults to `data/state.json` in the project directory.
-- Extend `bot.js` to add commands or listen to additional Discord events.
+State is stored in `data/state.json`. Extend `bot.js` to add commands or additional event handlers.
 
 ## License
 

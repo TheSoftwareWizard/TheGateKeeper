@@ -1,97 +1,96 @@
-# Checklist de Despliegue - Oracle Cloud Free Tier
+# Deployment Checklist - Oracle Cloud Free Tier
 
-## ✅ Resumen: Todo está listo para desplegar
+## Summary
 
-He revisado el proyecto y corregido todos los problemas identificados. El bot está completamente preparado para desplegarse en Oracle Cloud Free Tier.
+The bot is ready for deployment to Oracle Cloud Free Tier.
 
-## ✅ Problemas críticos CORREGIDOS
+## Critical Issues Fixed
 
-1. ✅ **Path de Node.js detectado dinámicamente**
-   - El script `deploy.sh` ahora detecta automáticamente la ruta de Node.js
-   - El servicio systemd se configura con la ruta correcta durante el despliegue
+1. Node.js path detected dynamically
+   - The deploy.sh script automatically detects Node.js path
+   - Systemd service is configured with correct path during deployment
 
-2. ✅ **Validación de la ruta de Node.js añadida**
-   - El script verifica que Node.js esté instalado y detecta su ubicación
-   - Se muestra un error claro si Node.js no está disponible
+2. Node.js path validation added
+   - Script verifies Node.js is installed and detects location
+   - Clear error shown if Node.js is not available
 
-## ✅ Mejoras implementadas
+## Improvements Implemented
 
-3. ✅ **Guía detallada de Oracle Cloud creada**
-   - Nuevo archivo: `ORACLE_CLOUD_SETUP.md`
-   - Instrucciones paso a paso para crear la instancia
-   - Guía de configuración SSH
-   - Información sobre Security Lists y firewall
-   - Troubleshooting específico de Oracle Cloud
+3. Detailed Oracle Cloud guide created
+   - File: ORACLE_CLOUD_SETUP.md
+   - Step-by-step instance creation instructions
+   - SSH configuration guide
+   - Security Lists and firewall information
+   - Oracle Cloud specific troubleshooting
 
-4. ✅ **Script de health check creado**
-   - Nuevo archivo: `health-check.sh`
-   - Verifica que el servicio está corriendo
-   - Revisa logs en busca de errores
-   - Valida archivos de configuración
+4. Health check script created
+   - File: health-check.sh
+   - Verifies service is running
+   - Reviews logs for errors
+   - Validates configuration files
 
-5. ✅ **Script de backup creado**
-   - Nuevo archivo: `backup.sh`
-   - Crea backups timestamped del estado y configuración
-   - Opción de compresión automática
+5. Backup script created
+   - File: backup.sh
+   - Creates timestamped backups of state and configuration
+   - Automatic compression option
 
-6. ✅ **Script de actualización mejorado**
-   - Nuevo archivo: `update.sh`
-   - Automatiza: git pull, npm install, restart del servicio
-   - Crea backup antes de actualizar
+6. Update script improved
+   - File: update.sh
+   - Automates: git pull, npm install, service restart
+   - Creates backup before updating
 
-## ✅ Documentación completada
+## Documentation Completed
 
-7. ✅ **Archivo LICENSE añadido**
-   - Archivo `LICENSE` creado con MIT License
+7. LICENSE file added
+   - LICENSE file created with MIT License
 
-8. ✅ **README actualizado**
-   - Referencias a la nueva guía detallada
-   - Documentación de los nuevos scripts
-   - Enlaces mejorados
+8. README updated
+   - References to detailed guide
+   - New scripts documentation
+   - Improved links
 
-## 📋 Archivos del proyecto
+## Project Files
 
-### Archivos principales
-- `bot.js` - Código principal del bot
-- `package.json` - Dependencias y configuración
-- `.env.example` - Plantilla de configuración
+### Main files
+- bot.js - Main bot code
+- package.json - Dependencies and configuration
+- .env.example - Configuration template
 
-### Scripts de despliegue
-- `deploy.sh` - Script de despliegue automático (✅ mejorado)
-- `acceptbot.service` - Configuración del servicio systemd
+### Deployment scripts
+- deploy.sh - Automatic deployment script
+- acceptbot.service - Systemd service configuration
 
-### Scripts de utilidad
-- `health-check.sh` - Verificación de salud del bot (✅ nuevo)
-- `backup.sh` - Creación de backups (✅ nuevo)
-- `update.sh` - Actualización automatizada (✅ nuevo)
+### Utility scripts
+- health-check.sh - Bot health verification
+- backup.sh - Backup creation
+- update.sh - Automated updates
 
-### Documentación
-- `README.md` - Documentación principal (✅ actualizado)
-- `ORACLE_CLOUD_SETUP.md` - Guía detallada de Oracle Cloud (✅ nuevo)
-- `DEPLOYMENT_CHECKLIST.md` - Este archivo
-- `LICENSE` - Licencia MIT (✅ nuevo)
+### Documentation
+- README.md - Main documentation
+- ORACLE_CLOUD_SETUP.md - Detailed Oracle Cloud guide
+- DEPLOYMENT_CHECKLIST.md - This file
+- LICENSE - MIT License
 
-## 🚀 Próximos pasos para desplegar
+## Next Steps for Deployment
 
-1. **Lee la guía detallada**:
-   ```bash
-   cat ORACLE_CLOUD_SETUP.md
-   ```
+1. Read the detailed guide:
 
-2. **Sigue los pasos en orden**:
-   - Crear cuenta en Oracle Cloud
-   - Crear instancia Ubuntu
-   - Configurar SSH
-   - Clonar el repositorio
-   - Configurar `.env`
-   - Ejecutar `./deploy.sh`
+       cat ORACLE_CLOUD_SETUP.md
 
-3. **Después del despliegue, usa los scripts de utilidad**:
-   ```bash
-   ./health-check.sh  # Verificar que todo funciona
-   ./backup.sh        # Crear backup inicial
-   ```
+2. Follow steps in order:
+   - Create Oracle Cloud account
+   - Create Ubuntu instance
+   - Configure SSH
+   - Clone repository
+   - Configure .env
+   - Execute ./deploy.sh
 
-## ✅ Todo está listo
+3. After deployment, use utility scripts:
 
-El proyecto está completamente preparado para desplegarse en Oracle Cloud Free Tier. Todos los problemas críticos han sido resueltos y se han añadido herramientas útiles para la gestión del bot en producción.
+       ./health-check.sh
+       ./backup.sh
+
+## Ready for Deployment
+
+The project is ready for deployment to Oracle Cloud Free Tier. All critical issues have been resolved and useful tools have been added for bot management in production.
+

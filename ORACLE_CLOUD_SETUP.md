@@ -1,301 +1,299 @@
-# Guía Paso a Paso: Despliegue en Oracle Cloud Free Tier
+# Oracle Cloud Free Tier Deployment Guide
 
-Esta guía te llevará paso a paso a través del proceso completo de desplegar tu bot de Discord en Oracle Cloud Free Tier.
+This guide provides step-by-step instructions for deploying the Discord bot on Oracle Cloud Free Tier.
 
-## Requisitos Previos
+## Prerequisites
 
-- Una cuenta de correo electrónico válida
-- Una tarjeta de crédito (para verificación, no se te cobrará si usas solo recursos gratuitos)
-- Acceso a Discord Developer Portal para obtener el token del bot
+- Valid email address
+- Credit card (for verification, no charges for free tier resources)
+- Discord bot token from Discord Developer Portal
 
-## Paso 1: Crear Cuenta en Oracle Cloud
+## Step 1: Create Oracle Cloud Account
 
-1. Ve a [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
-2. Haz clic en "Start for Free"
-3. Completa el formulario de registro:
-   - Nombre, email, país
-   - Número de teléfono para verificación
-   - Información de la tarjeta de crédito (solo para verificación, no se cobrará si usas solo recursos gratuitos)
-4. Verifica tu email y teléfono
-5. Espera a que se procese tu cuenta (puede tomar unos minutos)
+1. Visit [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/)
+2. Click "Start for Free"
+3. Complete the registration form:
+   - Name, email, country
+   - Phone number for verification
+   - Credit card information (verification only)
+4. Verify email and phone
+5. Wait for account processing (may take a few minutes)
 
-## Paso 2: Crear una Instancia de Computación
+## Step 2: Create Compute Instance
 
-1. **Acceder a la Consola de Oracle Cloud**
-   - Inicia sesión en [cloud.oracle.com](https://cloud.oracle.com)
-   - Selecciona tu región (recomendado: una cercana a ti)
+1. Access Oracle Cloud Console
+   - Log in at [cloud.oracle.com](https://cloud.oracle.com)
+   - Select your region (recommended: closest to you)
 
-2. **Crear una Nueva Instancia**
-   - En el menú principal, ve a **"Compute" → "Instances"**
-   - Haz clic en **"Create Instance"**
+2. Create New Instance
+   - Go to "Compute" → "Instances"
+   - Click "Create Instance"
 
-3. **Configurar la Instancia**
+3. Configure Instance
    
-   a. **Nombre y Forma**:
-   - Nombre: `discord-bot` (o el que prefieras)
-   - Image: Selecciona **"Canonical Ubuntu"** y elige la versión **22.04** o superior
+   a. Name and Shape:
+   - Name: discord-bot (or your preference)
+   - Image: Select "Canonical Ubuntu" version 22.04 or higher
    - Shape: 
-     - Para ARM (recomendado): Selecciona "Ampere" y elige **VM.Standard.A1.Flex**
-     - Para AMD: Selecciona **VM.Standard.E2.1.Micro** (Always Free)
+     - For ARM (recommended): Select "Ampere" and choose VM.Standard.A1.Flex
+     - For AMD: Select VM.Standard.E2.1.Micro (Always Free)
    
-   b. **Configuración de Red**:
-   - VCN: Si no tienes una, haz clic en "Create new VCN" (se crearán automáticamente todas las configuraciones necesarias)
-   - Subnet: Selecciona la subnet pública
-   - Public IP: Selecciona **"Assign a public IPv4 address"** (IMPORTANTE)
+   b. Network Configuration:
+   - VCN: If none exists, click "Create new VCN"
+   - Subnet: Select public subnet
+   - Public IP: Select "Assign a public IPv4 address" (IMPORTANT)
 
-   c. **Claves SSH**:
-   - Opción 1: **Generar nueva clave**
-     - Haz clic en "Generate SSH Key Pair"
-     - Descarga las claves privada y pública
-     - **¡IMPORTANTE!** Guarda la clave privada en un lugar seguro. La necesitarás para conectarte.
-   - Opción 2: **Usar tu clave pública existente**
-     - Pega tu clave pública SSH en el campo
+   c. SSH Keys:
+   - Option 1: Generate new key
+     - Click "Generate SSH Key Pair"
+     - Download private and public keys
+     - IMPORTANT: Save private key securely
+   - Option 2: Use existing public key
+     - Paste your SSH public key
 
-   d. **Configuración de Boot Volume**:
-   - Puedes dejar los valores por defecto (47 GB es suficiente para un bot)
+   d. Boot Volume Configuration:
+   - Default values (47 GB is sufficient)
 
-4. **Crear la Instancia**
-   - Revisa la configuración
-   - Haz clic en **"Create"**
-   - Espera 1-2 minutos mientras se crea la instancia
+4. Create Instance
+   - Review configuration
+   - Click "Create"
+   - Wait 1-2 minutes while instance is created
 
-## Paso 3: Obtener la IP Pública y Conectarte
+## Step 3: Get Public IP and Connect
 
-1. **Obtener la IP Pública**
-   - Una vez que la instancia esté en estado "Running"
-   - En la página de detalles de la instancia, copia la **"Public IP address"**
+1. Get Public IP
+   - Once instance is "Running"
+   - Copy the "Public IP address" from instance details
 
-2. **Conectarte por SSH**
+2. Connect via SSH
    
-   Si usaste la clave generada por Oracle:
-   ```bash
-   chmod 400 /ruta/a/tu/clave-privada.key
-   ssh -i /ruta/a/tu/clave-privada.key ubuntu@TU_IP_PUBLICA
-   ```
+   If using Oracle-generated key:
+
+       chmod 400 /path/to/private-key.key
+       ssh -i /path/to/private-key.key ubuntu@YOUR_PUBLIC_IP
    
-   Si usaste tu propia clave:
-   ```bash
-   ssh ubuntu@TU_IP_PUBLICA
-   ```
+   If using your own key:
 
-3. **Verificar la Conexión**
-   - Deberías ver el prompt de Ubuntu
-   - Actualiza el sistema:
-     ```bash
-     sudo apt update && sudo apt upgrade -y
-     ```
+       ssh ubuntu@YOUR_PUBLIC_IP
 
-## Paso 4: Configurar Security Lists (Firewall)
+3. Verify Connection
+   - You should see Ubuntu prompt
+   - Update system:
 
-**IMPORTANTE**: Los bots de Discord hacen conexiones **salientes** a Discord, no necesitas abrir puertos entrantes. Sin embargo, necesitas SSH para conectarte.
+         sudo apt update && sudo apt upgrade -y
 
-### Verificar que SSH está permitido
+## Step 4: Configure Security Lists (Firewall)
 
-1. En la consola de Oracle Cloud, ve a tu instancia
-2. Haz clic en la VCN (Virtual Cloud Network) asociada
-3. Ve a **"Security Lists"**
-4. Selecciona la Security List por defecto
-5. Verifica que existe una regla de "Ingress" para:
-   - Puerto: 22
-   - Protocolo: TCP
-   - Origen: 0.0.0.0/0 (o un rango IP específico para mayor seguridad)
+Discord bots make outbound connections to Discord, so no inbound ports need to be opened. SSH port 22 should be open by default.
 
-Si no existe, agrega una regla:
-- Source: `0.0.0.0/0` (o tu IP específica)
-- IP Protocol: TCP
-- Destination Port Range: 22
+### Verify SSH is Allowed
 
-**Nota**: No necesitas abrir ningún otro puerto para el bot de Discord, ya que usa conexiones salientes.
+1. In Oracle Cloud console, go to your instance
+2. Click on the associated VCN (Virtual Cloud Network)
+3. Go to "Security Lists"
+4. Select default Security List
+5. Verify "Ingress" rule exists for:
+   - Port: 22
+   - Protocol: TCP
+   - Source: 0.0.0.0/0
+   - Description: SSH access
 
-## Paso 5: Clonar y Configurar el Bot
+## Step 5: Deploy the Bot
 
-1. **Instalar Git** (si no está instalado):
-   ```bash
-   sudo apt install -y git
-   ```
+1. Install Git (if not installed):
 
-2. **Clonar el repositorio**:
-   ```bash
-   cd ~
-   git clone <URL_DEL_REPOSITORIO> acceptbotdiscordcbot
-   cd acceptbotdiscordcbot
-   ```
+       sudo apt update
+       sudo apt install -y git
 
-3. **Crear el archivo .env**:
-   ```bash
-   cp .env.example .env
-   nano .env
-   ```
-   
-   Edita el archivo con tus valores:
-   ```
-   DISCORD_TOKEN=tu_token_del_bot_aqui
-   TARGET_ROLE_ID=id_del_rol_aqui
-   ```
-   
-   Guarda y cierra (Ctrl+X, luego Y, luego Enter)
+2. Clone the repository:
 
-## Paso 6: Ejecutar el Script de Despliegue
+       cd ~
+       git clone <your-repo-url> TheGateKeeper
+       cd TheGateKeeper
 
-1. **Hacer el script ejecutable y correrlo**:
-   ```bash
-   chmod +x deploy.sh
-   ./deploy.sh
-   ```
+3. Create .env file:
 
-2. El script hará todo automáticamente:
-   - Instalará Node.js si es necesario
-   - Instalará las dependencias
-   - Configurará el servicio systemd
-   - Iniciará el bot
+       cp .env.example .env
+       nano .env
 
-3. **Verificar que funciona**:
-   ```bash
-   sudo systemctl status acceptbot
-   ```
+   Add your configuration:
 
-4. **Ver los logs en tiempo real**:
-   ```bash
-   sudo journalctl -u acceptbot -f
-   ```
+       DISCORD_TOKEN=your_bot_token_here
+       TARGET_ROLE_ID=123456789012345678
+       INTRO_CHANNEL_ID=123456789012345678
+       WELCOME_CHANNEL_ID=123456789012345678
 
-## Paso 7: Verificar que el Bot está Funcionando
+   Save and exit (Ctrl+X, Y, Enter)
 
-1. En Discord, verifica que el bot está en línea
-2. Envía un mensaje de prueba en un servidor donde esté el bot
-3. El bot debería asignar el rol automáticamente
+4. Run deployment script:
 
-## Comandos Útiles
+       chmod +x deploy.sh
+       ./deploy.sh
 
-### Gestión del Servicio
+   The script will:
+   - Install Node.js 18.x if needed
+   - Install npm dependencies
+   - Create data directory
+   - Configure systemd service
+   - Secure .env file
+   - Start bot automatically
+   - Enable auto-start on boot
 
-```bash
-# Ver estado
-sudo systemctl status acceptbot
+## Step 6: Manage the Service
 
-# Ver logs
-sudo journalctl -u acceptbot -f
+Check status:
 
-# Reiniciar
-sudo systemctl restart acceptbot
+    sudo systemctl status acceptbot
 
-# Detener
-sudo systemctl stop acceptbot
+View live logs:
 
-# Iniciar
-sudo systemctl start acceptbot
-```
+    sudo journalctl -u acceptbot -f
 
-### Scripts Útiles Incluidos
+Stop/Start/Restart:
 
-```bash
-# Health check
-chmod +x health-check.sh
-./health-check.sh
+    sudo systemctl stop acceptbot
+    sudo systemctl start acceptbot
+    sudo systemctl restart acceptbot
 
-# Crear backup
-chmod +x backup.sh
-./backup.sh
+## Step 7: Update the Bot
 
-# Actualizar el bot
-chmod +x update.sh
-./update.sh
-```
+Use the update script:
 
-## Solución de Problemas
+    cd ~/TheGateKeeper
+    chmod +x update.sh
+    ./update.sh
 
-### El bot no inicia
+Or manually:
 
-1. Revisa los logs:
-   ```bash
-   sudo journalctl -u acceptbot -n 50
-   ```
+    cd ~/TheGateKeeper
+    git pull
+    npm install
+    sudo systemctl restart acceptbot
 
-2. Verifica que el archivo `.env` existe y tiene los valores correctos:
-   ```bash
-   cat .env
-   ```
+## Troubleshooting
 
-3. Verifica permisos:
-   ```bash
-   ls -la .env
-   # Debe mostrar: -rw------- (600)
-   ```
+### SSH Connection Issues
 
-### No puedo conectarme por SSH
+If you cannot connect via SSH:
 
-1. Verifica que la instancia está en estado "Running"
-2. Verifica que tienes la IP pública correcta
-3. Verifica que la Security List permite conexiones SSH (puerto 22)
-4. Si usas una clave privada, verifica los permisos:
-   ```bash
-   chmod 400 tu-clave.key
-   ```
+1. Verify Security List has SSH rule (port 22)
+2. Check Ubuntu firewall:
 
-### La instancia se detiene inesperadamente
+       sudo ufw status
 
-1. Revisa en la consola de Oracle Cloud si hay notificaciones
-2. Verifica que no has excedido los límites del Free Tier
-3. Las instancias Always Free pueden tener limitaciones de CPU
-4. Verifica que el servicio está configurado para iniciarse automáticamente:
-   ```bash
-   sudo systemctl is-enabled acceptbot
-   ```
+   If active and SSH not allowed:
 
-### El bot se desconecta frecuentemente
+       sudo ufw allow 22/tcp
+       sudo ufw reload
 
-1. Revisa los logs para ver si hay errores
-2. Verifica la conexión a internet de la instancia:
-   ```bash
-   ping discord.com
-   ```
-3. Verifica que no hay problemas de CPU o memoria:
-   ```bash
-   htop
-   ```
+3. Verify correct private key and IP address
 
-## Límites del Free Tier
+### Bot Not Starting
 
-- **Compute**: 2 VM.Standard.E2.1.Micro (AMD) O 4 VM.Standard.A1.Flex (ARM) con hasta 24 GB RAM
-- **Transferencia de datos salientes**: 10 TB por mes
-- **Almacenamiento**: 200 GB total de boot volumes
+1. Check logs:
 
-**Nota**: El bot de Discord usa muy pocos recursos. Un bot simple como este puede funcionar perfectamente en una instancia Always Free.
+       sudo journalctl -u acceptbot -n 50
 
-## Seguridad Adicional
+2. Verify .env file exists and has correct permissions:
 
-1. **Limitar acceso SSH a tu IP**:
-   - En Security Lists, cambia `0.0.0.0/0` por tu IP específica
-   - Para obtener tu IP pública: `curl ifconfig.me`
+       ls -la .env
+       chmod 600 .env
 
-2. **Usar firewall local** (ufw):
-   ```bash
-   sudo ufw allow 22/tcp
-   sudo ufw enable
-   ```
+3. Verify all environment variables are set:
 
-3. **Actualizar regularmente**:
-   ```bash
-   sudo apt update && sudo apt upgrade -y
-   ```
+       cat .env
 
-## Próximos Pasos
+4. Check Node.js version:
 
-Una vez que el bot esté funcionando:
+       node --version
 
-1. Configura backups regulares del archivo `data/state.json`
-2. Monitorea los logs periódicamente
-3. Actualiza el bot cuando haya nuevas versiones
-4. Considera configurar alertas si el servicio se detiene
+   Should be >= 18.17
 
-## Recursos Adicionales
+### Role Assignment Not Working
 
-- [Documentación de Oracle Cloud Free Tier](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm)
-- [Discord.js Documentation](https://discord.js.org/)
-- [Discord Developer Portal](https://discord.com/developers/applications)
+1. Verify bot has "Manage Roles" permission in Discord
+2. Verify bot role is above target role in Discord role hierarchy
+3. Verify role ID is correct in .env:
 
+       grep TARGET_ROLE_ID .env
 
+4. Verify channel IDs are correct:
 
+       grep CHANNEL_ID .env
 
+5. Check bot logs for errors:
 
+       sudo journalctl -u acceptbot -f
 
+### Instance Stopped Unexpectedly
+
+1. Check Oracle Cloud console for resource limits
+2. Free tier instances may have CPU throttling (should not affect Discord bot)
+3. Verify always-free shape was selected
+
+## Oracle Cloud Free Tier Limits
+
+Always Free Resources:
+- 2 AMD-based VMs or 4 Arm-based Ampere A1 VMs
+- 10 TB outbound data transfer per month
+- 200 GB block storage
+- 10 GB object storage
+
+These limits are more than sufficient for running a Discord bot 24/7.
+
+## Useful Commands
+
+Health check:
+
+    chmod +x health-check.sh
+    ./health-check.sh
+
+Create backup:
+
+    chmod +x backup.sh
+    ./backup.sh
+
+View service logs:
+
+    sudo journalctl -u acceptbot -f
+
+Check disk usage:
+
+    df -h
+
+Check memory usage:
+
+    free -h
+
+Monitor system resources:
+
+    htop
+
+## Security Best Practices
+
+1. Keep .env file permissions at 600:
+
+       chmod 600 .env
+
+2. Regularly update system packages:
+
+       sudo apt update && sudo apt upgrade -y
+
+3. Never commit .env file to version control
+
+4. Use strong passwords for Oracle Cloud account
+
+5. Regularly backup state file:
+
+       ./backup.sh
+
+## Next Steps
+
+Once deployed:
+1. Test bot by having a user send a message in the introduction channel
+2. Verify role is assigned
+3. Verify welcome message is sent
+4. Monitor logs for any issues
+5. Set up regular backups
+
+The bot is now running 24/7 on Oracle Cloud Free Tier.

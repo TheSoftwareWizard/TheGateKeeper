@@ -1,7 +1,7 @@
 {
-  "name": "acceptbotdiscordcbot",
+  "name": "the-gatekeeper",
   "version": "1.0.0",
-  "description": "Discord bot that assigns a role when a member sends their first message.",
+  "description": "Discord bot that assigns a role when members introduce themselves and sends a welcome message.",
   "type": "module",
   "main": "bot.js",
   "scripts": {

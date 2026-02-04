@@ -1,5 +1,5 @@
 [Unit]
-Description=Discord Bot - First Message Role Assigner
+Description=Discord Bot - Introduction Role Assigner
 After=network.target
 
 [Service]
@@ -15,12 +15,12 @@ StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=acceptbot
 
-# Security settings
 NoNewPrivileges=true
 PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
+
 
 
 
